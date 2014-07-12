@@ -8,92 +8,123 @@ var stat_proto {
         else this.target = clamp(val, 0, 100);
     }
 }
-
 // a value of 0 is default (where applicable)
-var char {
+function char (name, age, personality) {
     // Misc data
-    name:               "",
-    age:                18,
-    personality:        "",
-    var location: {
-        pos:            [0,0],
-        mapid:          0,
-        mapid2:         0,
-    },
-    var stats {
+    this.name =             name;
+    this.age =              age;
+    this.personality =      personality;
+    this.location = {
+        region:             0,
+        pos:                [0,0],
+        mapid:              0,
+        mapid2:             0
+    }
+    this.stats = {
         health:             100,
         energy:             100,
         strn:               20,             // strength
         luck:               20,
         will:               20,             // willpower
         rflx:               50,             // reflex
-        agil:               30             // agility
-        }
-    },
-    var status_effects: {
+        agil:               30              // agility
+    }
+    this.statuses = {
         drunk:              0,
         poison:             0,
-    },
-    var clothing {
+    }
+    this.clothing = {
             tops:           0,
             bottoms:        0,
             undies_top:     0,
             undies_bottom:  0,
             socks:          0,
             shoes:          0,
-            glasses:        0,
-    },
-    var inventory: {
+            glasses:        0
+    }
+    this.inventory = {
         slots:              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    },
+    }
 
     // physical appearance
-    var ears =
+    this.ears =
         type:           0,
-        var left = {
+        left = {
             piercing:   0
         },
-        var right = {
+        right = {
             piercing:   0
         }
 
-    var eyes = {
-        var left = {
+    this.eyes = {
+        left = {
             color:      "blue"
         },
-        var right = {
+        right = {
             color:      "blue"
         }
 
-    var hair = {
+    this.hair = {
         length:         1,
         color:          "blond",
         style:          ""
     }
 
-    var tongue = {
+    this.tongue = {
         piercing:       0,
         length:         1.5,
         color:          "Pink";
     }
-    var belly = {
+    this.belly = {
         piercing:       0,      //naval
-        tone:           20,
+        tone:           20
     }
 
 
 
 
-    height:             66,     // in inches
-    tone:               20,     // muscle tone
-    },
+    this.height =       66;     // in inches
+    this.tone =         20;     // muscle tone
+    }
 
-    var jobskills {
+    this.jobskills {
         cooking:        0,
         cleaning:       0,
-        bartending:     0,
+        bartending:     0
     }
 
     //toJSON:             function () {
     //}
+}
+
+
+
+// location prototypes
+char.location.prototype.getmap = function() {
+    if (this.mapid2 > 0) return this.region.mapid.mapid2;
+    return this.region.mapid.mapid2;
+}
+
+
+// inventory prototypes
+char.inventory.prototype.is_valid = function(i) {
+    if (0 <= slot_index <= 9) return true;
+    return false;
+}
+
+char.inventory.prototype.set_slot = function (slot_index, value) {
+    if (this.is_valid(slot_index)) slots[slot_index] = value;
+}
+
+char.inventory.prototype.get_free_slot = function () {
+    for (var slot in this.slots) {
+        if this.slots[slot] == 0: return slot;
+    return null;
+}
+
+char.inventory.prototype.swap_slot = function (a, b) {
+    if (this.is_valid(a) && this.is_valid(b)) {
+        var temp = this.slots[b];
+        this.slots[b] = this.slots[a];
+        this.slots[a] = temp;
 }
