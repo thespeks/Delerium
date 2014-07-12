@@ -1,3 +1,14 @@
+
+var stat_proto {
+    name:                   null,
+    current:                0,
+    base:                   0,
+    _sv:               function (val , targ, clamp) {
+        if (!clamp) this.target = val;
+        else this.target = clamp(val, 0, 100);
+    }
+}
+
 // a value of 0 is default (where applicable)
 var char {
     // Misc data
@@ -16,7 +27,8 @@ var char {
         luck:               20,
         will:               20,             // willpower
         rflx:               50,             // reflex
-        agil:               30,             // agility
+        agil:               30             // agility
+        }
     },
     var status_effects: {
         drunk:              0,
