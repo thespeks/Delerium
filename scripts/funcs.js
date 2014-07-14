@@ -1,11 +1,3 @@
-function combineArray(a) {
-    // Combine 2 or more arrays into a single array
-    var x = a[0].concat(a[1]);
-    if (a.length > 2) {
-        for (i=2; i<a.length; i++) x.concat(i);
-    }
-    return x;
-}
 
 function lengthInRange(x, min, max) {
     // return true if x is between min and max length
