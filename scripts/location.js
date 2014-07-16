@@ -1,5 +1,5 @@
 
-Region = function (name) {}
+Region = function (name) {
     this.name = name;
     this.maps = [];
 }
