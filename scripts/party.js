@@ -32,6 +32,7 @@ Party.prototype.getSlot = function (idx) {
 Party.prototype.freeSlot = function (char) {
     for i in this.iterSlots() {
         if (i == char.id) i = 0;
+    }
 }
 
 Party.prototype.setSlot = function (idx, char) {
@@ -41,6 +42,8 @@ Party.prototype.setSlot = function (idx, char) {
         if (i == char.id) {
             i = 0;
             tmp = i;
+        }
+    }
     if (tmp != null) tmp = this.getSlot(idx);
     this.getSlot(idx) = char;
 }
