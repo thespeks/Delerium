@@ -50,3 +50,13 @@ GameData.prototype.regChar = function (char) {
     else char.id = x + 1;
     gamedata.chars.concat([char])
 }
+
+
+
+var saved =     true;
+var gamedata =  null;
+
+function isSaved () {
+    if (gamedata != null) return saved; // whatever state saved is in
+    else return true; // nothing to save
+}
