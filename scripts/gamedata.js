@@ -50,9 +50,29 @@ GameChars function () {
     }
 }
 
-var saved =     true;
-var gamedata =  null;
 var DEFAULT_DISABLED_FETS = [];
+
+var game {
+    saved:          true,
+    data:           null;
+    saveGame =      function () {
+        if data != null {
+            
+        }
+    }
+    loadGame =      function () {
+        if (this.saved == true) {
+        
+            
+        }
+        else {
+    }
+    newGame =       function () {
+        if (this.saved == true){
+            
+        }
+    }
+}
 
 function GameData () {
     this.datetime           new DateTime();
@@ -63,8 +83,10 @@ function GameData () {
     }
 }
 
-
-isSaved = function () {
-    if (gamedata != null) return saved; // whatever state saved is in
-    else return true; // nothing to save
+savePrompt = function () {
+    this.text = "You have unsaved progress. Do you want to save?.";
+    this.ok = "yes";
+    this.cancel = "cancel";
+    this.userchoice = null;
 }
+
