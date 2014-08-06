@@ -1,10 +1,4 @@
 
-function PC () {
-    this.char =             Char("???", "?", "?", "?");
-    this.party =            Party(1, 1);
-    this.party.chars.s1 =   this.char.id;
-}
-
 function DateTime () {
     this.dt =       [0,0,0,0]; //hour, min, day, week
 }
@@ -15,48 +9,62 @@ DateTime.prototype.day =    function () { return this.dt[2] }
 DateTime.prototype.week =   function () { return this.dt[3] }
 
 
-function GameData () {
-    //this.options = {  // this game local options (reset on new game)
-    //    }
-    this.datetime       DateTime()
-    this.pc =           PC();  // player char
-    this.chars =        [];    // all chars met
+function PC () {
+    this.char =             Char("???", "?", "?", "?");
+    this.party =            Party(1, 1);
+    this.party.chars.s1 =   this.char.id;
 }
 
-GameData.prototype.iterChars = function () {
-    yield this.pc.char;
-    for (var i; i=0; i++) yeld i;
-}
-
-GameData.prototype.getCharFromAttr = function (x, attr) {
-    if (attr == "id" && x == 1) return this.pc.char;
-    else if (attr == "id" || "name") {
-        for (var i; i=0; i++) {
-            if (i[attr] == x) return i;
+GameChars function () {
+    this.pc =           new PC();
+    this.chars =        [];
+    this.toJSON =       function () {
+        yield this.pc;
+        yield this.chars;
         }
-        throw("no char with that attr")
-    }
-    else throw("invalid attr: " + attr)
-}
 
-GameData.prototype.regChar = function (char) {
-    var x = 0;
-    if (char.id == 0) { // new char
-        for i in gamedata.iterChars {
-            if (i.id > x) x = i.id;
+    this.iterChars =    function () {
+        yield this.pc.char; // pc is always first
+        for (var i; i=0; i++) yield i;
+    }
+
+    this.getCharFromAttr = function (x, attr) {
+        if (attr == "id" && x == 1) return this.pc.char;
+        else if (attr == "id" || "name") {
+            for (var i; i=0; i++) {
+                if (i[attr] == x) return i;
+            }
+            throw("no char with that attr")
         }
+        else throw("invalid attr: " + attr)
     }
-    if (x == 0) char.id = 2; // 1 is pc
-    else char.id = x + 1;
-    gamedata.chars.concat([char])
+
+    this.regChar = function (char) {
+        var x = 0;
+        for i in this.iterChars {
+            if (i.id > x) x = i.id; // grab highest id
+        }
+        if (x == 0) char.id = 2; // 1 is pc
+        else char.id = x + 1;
+        this.chars.concat([char]);
+    }
 }
-
-
 
 var saved =     true;
 var gamedata =  null;
+var DEFAULT_DISABLED_FETS = [];
 
-function isSaved () {
+function GameData () {
+    this.datetime           new DateTime();
+    this.chars =            new GameChars();
+    this.options.disabled_fets = [];
+    this.flags.glob =       []; // global flags
+    this.flags.evt =        []; // event flags
+    }
+}
+
+
+isSaved = function () {
     if (gamedata != null) return saved; // whatever state saved is in
     else return true; // nothing to save
 }
