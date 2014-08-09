@@ -2,7 +2,7 @@
 // a value of 0 is default (where applicable)
 
 /* ---- Location ------------------------------------------------------------ */
-function CharLoc () {
+CharLoc = function () {
     this.region =       0;
     this.pos =          [0,0];
     this.mapid:         0;
@@ -21,7 +21,7 @@ CharLoc.prototype.getRegion = function () {
 
 
 /* ---- Inventory ----------------------------------------------------------- */
-function CharInv () {
+CharInv = function () {
     this.slots =              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 }
 
@@ -48,68 +48,70 @@ CharInv.prototype.swap_slot = function (a, b) {
         this.slots[a] = temp;
 }
 
+/* ---- Equip --------------------------------------------------------------- */
+CharEquip = function () {
+    this.tops =             0;
+    this.bottoms =          0;
+    this.undies_top =       0;
+    this.undies_bottoms =   0;
+    this.socks =            0;
+    this.gloves =           0;
+    this.shoes =            0;
+    this.glasses =          0;
+    this.collar =           0;
+    this.necklace =         0;
+
+    this.left_hand =        0;
+    this.right_hand =       0;
+}
+
+CharEquip.prototype.iterClothing = function () {
+    yield this.tops;
+    yield this.bottoms;
+    yield this.undies_top;
+    yield this.undies_bottoms;
+}
+
 
 /* ---- Char ---------------------------------------------------------------- */
-function Char (name, age, personality, species, types) {
+Char = function (name, age, personality, species, types, handedness) {
     // Misc data
     this.name =             name;
     this.age =              age;
     this.personality =      personality;
-    this.species =          species;
+    this.race =             race;
     this.types =            types;
+    this.handedness =       handedness; // left or right
 
     this.loc =              CharLoc();
     this.inventory =        CharInv();
+    this.equip =            CharEquip();
 
-    this.stats = {
-        health:             100,
-        energy:             100,
-        strn:               20,             // strength
-        luck:               20,
-        will:               20,             // willpower
-        rflx:               50,             // reflex
-        agil:               30              // agility
-    }
-
+    this.stats =            race.stats;     // 
+    this.stats.health =     100;            // 
+    this.stats.energy =     100;            // 
+    this.statusres =        race.statres;   // status resistance
     this.statuses = {
         cursed:             0,
         drunk:              0,
         poison:             0,
+        paralyze:           0,
+        preg:               0,
+        season:             0
     }
-
-    this.clothing = {
-        tops:           0,
-        bottoms:        0,
-        undies_top:     0,
-        undies_bottom:  0,
-        socks:          0,
-        shoes:          0,
-        glasses:        0
-    }
+    this.skills =           new Skills();
 
     // physical appearance
     this.height =       66;     // in inches
     this.tone =         20;     // muscle tone
-    this.skin = {
-        color:          0;
-    }
+    this.skin.color =   "light";
+    
+    this.ears.left.piercing = 0;
+    this.ears.right.piercing = 0;
 
-    this.ears =
-        type:           0,
-        left = {
-            piercing:   0
-        },
-        right = {
-            piercing:   0
-        }
+    this.eyes.left.color = "blue"
+    this.eyes.right.color = "blue"
 
-    this.eyes = {
-        left = {
-            color:      "blue"
-        },
-        right = {
-            color:      "blue"
-        }
 
     this.hair = {
         length:         1,
@@ -122,6 +124,7 @@ function Char (name, age, personality, species, types) {
         length:         1.5,
         color:          "Pink"
     }
+    
     this.belly = {
         piercing:       0,      //naval
         tone:           20
