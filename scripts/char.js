@@ -130,12 +130,6 @@ Char = function (name, age, personality, species, types, handedness) {
         tone:           20
     }
 
-    this.jobskills {
-        cooking:        0,
-        cleaning:       0,
-        bartending:     0
-    }
-
 }
 
 
