@@ -1,49 +1,67 @@
 
-function Party (id, ispc) {
-    this.ispc =         ispc;
-    this.id =           id;
-    this.chars = {
-        s1:             0,
-        s2:             0,
-        s3:             0,
-        s4:             0,
-        s5:             0
-    }
+slotIsValid = function (n) {
+    if (0 <= n <= 4) return true;
+    return false
 }
 
-Party.prototype.iterSlots = function () {
-    yield this.chars.s1;
-    yield this.chars.s2;
-    yield this.chars.s3;
-    yield this.chars.s4;
-    yield this.chars.s5;
+Slot = function (char) {
+    this.char = char || 0;
 }
 
-Party.prototype.getSlot = function (idx) {
-    switch (idx) {
-        case 1: return this.chars.s1; break;
-        case 2: return this.chars.s2; break;
-        case 3: return this.chars.s3; break;
-        case 4: return this.chars.s4; break;
-        case 5: return this.chars.s5; break;
-    }
+Slot.prototype.getChar = function () {
+    return game.data.chars.getCharFromAttr(this.char, "id")
 }
 
-Party.prototype.freeSlot = function (char) {
-    for i in this.iterSlots() {
-        if (i == char.id) i = 0;
-    }
-}
-
-Party.prototype.setSlot = function (idx, char) {
-    var tmp = null;
-    // check if char already exists in other slot if so swap slots
-    for i in this.iterSlots() {
-        if (i == char.id) {
-            i = 0;
-            tmp = i;
+PartySlots = function (chars) {
+    if (chars.length < 5) {
+        var x = 5 - chars.length;
+        while True {
+            chars.concat(0);
+            if (chars.length == 5) break;
         }
+    this.slots = [
+        Slot(chars[0]),
+        Slot(chars[1]),
+        Slot(chars[2]),
+        Slot(chars[3]),
+        Slot(chars[4])
+        ]
     }
-    if (tmp != null) tmp = this.getSlot(idx);
-    this.getSlot(idx) = char;
+}
+
+PartySlots.prototype.hasChar = function (char) {
+    for (i; i=0; i++;) {
+        if (i.char == char.id) return true;
+    }
+    return false;
+}
+
+PartySlots.prototype.setSlot = function () {
+    if (slotIsValid(slot)) {
+
+    }
+    return Error("slot out of range");
+}
+
+PartySlots.prototype.swapSlots = function (a, b) {
+    if (a !== b) {
+        if slotIsValid(a) && slotIsValid(b)) {
+            var t = this[b]
+            this[b] = this[a]
+            this[a] = t
+        }
+        return Error("slot out of range");
+    }
+}
+
+PartySlots.prototype.getFreeSlots = function () {
+    for (i in this) {
+        if (i.char == 0) yield i;
+    }
+}
+
+function Party (id, ispc, chars) {
+    this.ispc =     ispc;
+    this.id =       id;
+    this.slots =    PartySlots(chars || [0,0,0,0,0]);
 }
