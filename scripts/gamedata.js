@@ -1,5 +1,5 @@
 
-function DateTime () {
+DateTime = function () {
     this.dt =       [0,0,0,0]; //hour, min, day, week
 }
 
@@ -9,13 +9,13 @@ DateTime.prototype.day =    function () { return this.dt[2] }
 DateTime.prototype.week =   function () { return this.dt[3] }
 
 
-function PC () {
+PC = function () {
     this.char =             Char("???", "?", "?", "?");
     this.party =            Party(1, 1);
     this.party.chars.s1 =   this.char.id;
 }
 
-GameChars function () {
+GameChars = function () {
     this.pc =           new PC();
     this.chars =        [];
     this.toJSON =       function () {
@@ -74,7 +74,7 @@ var game {
     }
 }
 
-function GameData () {
+GameData = function () {
     this.datetime           new DateTime();
     this.chars =            new GameChars();
     this.options.disabled_fets = [];
@@ -84,9 +84,9 @@ function GameData () {
 }
 
 savePrompt = function () {
-    this.text = "You have unsaved progress. Do you want to save?.";
-    this.ok = "yes";
-    this.cancel = "cancel";
-    this.userchoice = null;
+    this.text =         "You have unsaved progress. Do you want to save?.";
+    this.ok =           "yes";
+    this.cancel =       "cancel";
+    this.userchoice =   null;
 }
 
